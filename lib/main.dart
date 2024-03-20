@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
 
@@ -76,3 +77,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+///TODO: GraphQL query
+/*
+//Details of a Character
+* query {
+  character(id: "1") {
+    id
+    name
+    status
+    species
+    type
+    gender
+    origin {
+      name
+    }
+    location {
+      name
+    }
+    image
+    episode {
+
+      name
+
+    }
+  }
+}
+*
+* */
+//List of characters
+/*
+* query {
+  characters(page: 1) {
+    results {
+      id
+      name
+      image
+    }
+
+* */
+///
