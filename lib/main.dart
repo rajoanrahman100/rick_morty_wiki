@@ -5,6 +5,7 @@ import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/bloc_cubit/favourite_character_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/repository/characters_repository.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/repository/location_repository.dart';
@@ -43,6 +44,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => DropdownCubit(),
+          ),
+          BlocProvider(
+            create: (context) => FavouriteCharacterCubit(),
           ),
         ],
         child: AppNavigator(),

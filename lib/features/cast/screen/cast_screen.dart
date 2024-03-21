@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/bloc_cubit/favourite_character_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 
 class CastScreen extends StatefulWidget {
@@ -33,9 +36,6 @@ class _CastScreenState extends State<CastScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<CharacterCubit>().fetchCharacters(page: 1);
-    });
   }
 
   @override
@@ -54,7 +54,7 @@ class _CastScreenState extends State<CastScreen> {
           Container(
             height: height,
             width: width,
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             color: AppColors.backgroundColor.withOpacity(0.9),
             child: SingleChildScrollView(
               child: Column(
@@ -162,7 +162,8 @@ class _CastScreenState extends State<CastScreen> {
                                       const EdgeInsets.only(left: 15.0, right: 10.0, top: 10.0, bottom: 15.0),
                                   suffixIcon: GestureDetector(
                                       onTap: () {
-                                        print("Value is ${_searchController.text} and item is ${context.read<DropdownCubit>().state}");
+                                        print(
+                                            "Value is ${_searchController.text} and item is ${context.read<DropdownCubit>().state}");
                                       },
                                       child: const Icon(
                                         Icons.search,
@@ -191,14 +192,14 @@ class _CastScreenState extends State<CastScreen> {
                             childAspectRatio: 0.85,
                             crossAxisSpacing: 15.0,
                             mainAxisSpacing: 15.0,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
-                              if (index < state.characterModel.data!.characters!.results!.length) {
-                                var data = state.characterModel.data!.characters!.results![index];
-                                return CastItemWidget(data: data, height: height, width: width);
-                              } else {
-                                return Center(child: CircularProgressIndicator());
-                              }
+                              var data = state.characterModel.data!.characters!.results![index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    context.read<FavouriteCharacterCubit>().addItem(data);
+                                  },
+                                  child: CastItemWidget(data: data, height: height, width: width));
                             }),
                           );
                         } else {
@@ -207,11 +208,10 @@ class _CastScreenState extends State<CastScreen> {
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             crossAxisCount: 4,
-                            // Adjust the crossAxisCount for tab view
                             childAspectRatio: 0.85,
                             crossAxisSpacing: 15.0,
                             mainAxisSpacing: 15.0,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
                               var data = state.characterModel.data!.characters!.results![index];
                               return CastItemWidget(data: data, height: height, width: width);
