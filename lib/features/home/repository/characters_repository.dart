@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:ricky_morty_wiki/core/constants/api_endpoints.dart';
+import 'package:ricky_morty_wiki/core/constants/graphql_queries.dart';
 import 'package:ricky_morty_wiki/features/home/model/character_model.dart';
 
 class CharacterRepository {
@@ -11,17 +12,7 @@ class CharacterRepository {
       Uri.parse(ApiEndpoints.baseGraphql),
       headers: ApiEndpoints.headers,
       body: jsonEncode({
-        "query": """
-            query {
-              characters(page: 1) {
-                results {
-                  id
-                  name
-                  image
-                }
-              }
-            }
-          """,
+        "query":GraphQLQueries.getAllCharactersQuery(),
       }),
     );
 
