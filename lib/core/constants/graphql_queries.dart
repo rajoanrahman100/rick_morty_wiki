@@ -30,4 +30,23 @@ class GraphQLQueries {
       }
     """;
   }
+
+  static String getCharactersFilteredQuery({String? status, String? query}) {
+    return """
+      query {
+        characters(filter: { $status: "$query" }) {
+          results {
+              id
+              name
+              image
+              status
+              species
+              type
+              gender
+          }
+        }
+      }
+
+    """;
+  }
 }

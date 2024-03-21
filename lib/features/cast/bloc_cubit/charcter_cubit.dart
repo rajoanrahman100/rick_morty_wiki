@@ -13,7 +13,7 @@ class CharacterCubit extends Cubit<CharacterSate> {
     try {
       final response = await characterRepository.getAllCharacters(currentPage);
       emit(ResponseCharacterState(response));
-      currentPage++;
+
     } catch (e) {
       emit(ErrorCharacterState(e.toString()));
     }
