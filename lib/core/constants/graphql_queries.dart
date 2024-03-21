@@ -1,8 +1,8 @@
 class GraphQLQueries {
-  static String getAllCharactersQuery() {
+  static String getAllCharactersQuery(page) {
     return """
       query {
-        characters(page: 1) {
+        characters(page: $page) {
           results {
             id
             name
@@ -11,6 +11,20 @@ class GraphQLQueries {
             species
             type
             gender
+          }
+        }
+      }
+    """;
+  }
+
+  static String getAllLocationsQuery(page) {
+    return """
+      query {
+        locations(page:$page) {
+          results {
+            id
+            name
+            type 
           }
         }
       }
