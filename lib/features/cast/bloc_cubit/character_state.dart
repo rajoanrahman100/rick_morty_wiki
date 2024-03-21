@@ -1,4 +1,5 @@
-import 'package:ricky_morty_wiki/features/home/model/character_model.dart';
+
+import 'package:ricky_morty_wiki/features/cast/model/character_model.dart';
 
 abstract class CharacterSate {}
 
