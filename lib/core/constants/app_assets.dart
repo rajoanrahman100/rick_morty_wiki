@@ -14,4 +14,6 @@ class AppAssets {
   static const String person = "$assetIcon/person.svg";
   static const String episode = "$assetIcon/episode.svg";
   static const String location = "$assetIcon/location.svg";
+
+  static const double btnBorderRadius = 8.0;
 }
