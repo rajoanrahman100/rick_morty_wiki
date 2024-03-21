@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -8,6 +9,7 @@ import 'package:ricky_morty_wiki/core/helper/bg_overlay_image.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 
 class CastScreen extends StatefulWidget {
@@ -17,6 +19,24 @@ class CastScreen extends StatefulWidget {
 
 class _CastScreenState extends State<CastScreen> {
   final ScrollController _scrollController = ScrollController();
+
+  final List<String> items = [
+    'name',
+    'status',
+    'species',
+    'gender',
+  ];
+
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<CharacterCubit>().fetchCharacters(page: 1);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +60,123 @@ class _CastScreenState extends State<CastScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Gap(30.0),
                   Container(
-                    height: 100,
+                    height: 55,
                     width: width,
-                    color: AppColors.backgroundColor,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.white, width: 0.2),
+                        borderRadius: BorderRadius.circular(30.0)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        children: [
+                          BlocBuilder<DropdownCubit, String?>(
+                            builder: (context, selectedValue) {
+                              return DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                isExpanded: true,
+                                hint: const Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      'Select',
+                                      style: bodySemiBold14,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                items: items
+                                    .map((String item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: selectedValue,
+                                onChanged: (value) {
+                                  context.read<DropdownCubit>().selectItem(value!);
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: 150,
+                                  padding: const EdgeInsets.only(left: 14, right: 14),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(24),
+                                      bottomLeft: Radius.circular(24),
+                                    ),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                    ),
+                                    color: AppColors.filterBackgroundColor,
+                                  ),
+                                  elevation: 2,
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                  ),
+                                  iconSize: 14,
+                                  iconEnabledColor: AppColors.white,
+                                  iconDisabledColor: AppColors.white,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  maxHeight: 200,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14),
+                                    color: AppColors.filterBackgroundColor,
+                                  ),
+                                  //offset: const Offset(-20, 0),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  height: 40,
+                                  padding: EdgeInsets.only(left: 14, right: 14),
+                                ),
+                              ));
+                            },
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              controller: _searchController,
+                              style: const TextStyle(color: AppColors.white),
+                              cursorColor: AppColors.white,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  hintText: "Search",
+                                  hintStyle: bodyMedium14.copyWith(color: AppColors.white.withOpacity(0.5)),
+                                  contentPadding:
+                                      const EdgeInsets.only(left: 15.0, right: 10.0, top: 10.0, bottom: 15.0),
+                                  suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        print("Value is ${_searchController.text} and item is ${context.read<DropdownCubit>().state}");
+                                      },
+                                      child: const Icon(
+                                        Icons.search,
+                                        color: AppColors.white,
+                                      ))),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                  Gap(30.0),
+                  const Gap(30.0),
                   Text("All Casts", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
-                  Gap(20.0),
+                  const Gap(20.0),
                   BlocBuilder<CharacterCubit, CharacterSate>(builder: (context, state) {
                     if (state is LoadingCharacterState) {
                       return const Center(child: CircularProgressIndicator());
