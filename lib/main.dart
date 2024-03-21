@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ricky_morty_wiki/app_navigator.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
+import 'package:ricky_morty_wiki/features/home/bloc_cubit/charcter_cubit.dart';
+import 'package:ricky_morty_wiki/features/home/repository/characters_repository.dart';
 import 'package:ricky_morty_wiki/features/splash/bloc/splash_cubit.dart';
 
 void main() {
@@ -29,6 +31,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => BottomNavBarCubit(),
+          ),
+          BlocProvider(
+            create: (context) => CharacterCubit(CharacterRepository()),
           ),
         ],
         child: AppNavigator(),
