@@ -41,14 +41,14 @@ class Data {
 }
 
 class Characters {
-  List<Result>? results;
+  List<CharactersResult>? results;
 
   Characters({
     this.results,
   });
 
   factory Characters.fromJson(Map<String, dynamic> json) => Characters(
-    results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
+    results: json["results"] == null ? [] : List<CharactersResult>.from(json["results"]!.map((x) => CharactersResult.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -56,7 +56,7 @@ class Characters {
   };
 }
 
-class Result {
+class CharactersResult {
   String? id;
   String? name;
   String? image;
@@ -65,7 +65,7 @@ class Result {
   String? type;
   String? gender;
 
-  Result({
+  CharactersResult({
     this.id,
     this.name,
     this.image,
@@ -75,7 +75,7 @@ class Result {
     this.gender,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory CharactersResult.fromJson(Map<String, dynamic> json) => CharactersResult(
     id: json["id"],
     name: json["name"],
     image: json["image"],

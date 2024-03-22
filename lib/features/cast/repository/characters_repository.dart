@@ -7,12 +7,12 @@ import 'package:ricky_morty_wiki/core/constants/graphql_queries.dart';
 import 'package:ricky_morty_wiki/features/cast/model/character_model.dart';
 
 class CharacterRepository {
-  Future<CharacterModel> getAllCharacters(page) async {
+  Future<CharacterModel> getAllCharacters({int? page,String? status,String? query}) async {
     final response = await http.post(
       Uri.parse(ApiEndpoints.baseGraphql),
       headers: ApiEndpoints.headers,
       body: jsonEncode({
-        "query":GraphQLQueries.getAllCharactersQuery(page),
+        "query": GraphQLQueries.getAllCharactersQuery(page: page, status: status, query: query),
       }),
     );
 
@@ -25,4 +25,5 @@ class CharacterRepository {
       throw Exception('Failed to load characters ${response.statusCode}');
     }
   }
+
 }

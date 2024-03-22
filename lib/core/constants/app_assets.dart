@@ -16,4 +16,10 @@ class AppAssets {
   static const String location = "$assetIcon/location.svg";
 
   static const double btnBorderRadius = 8.0;
+
+  // ['name', 'status', 'species', 'gender'];
+  static const nameFilter ="name";
+  static const statusFilter ="status";
+  static const speciesFilter ="species";
+  static const genderFilter ="gender";
 }

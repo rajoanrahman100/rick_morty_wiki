@@ -1,8 +1,8 @@
 class GraphQLQueries {
-  static String getAllCharactersQuery(page) {
+  static String getAllCharactersQuery({String? status, String? query,int? page}) {
     return """
       query {
-        characters(page: $page) {
+        characters( filter: { $status: "$query" },page: $page) {
           results {
             id
             name

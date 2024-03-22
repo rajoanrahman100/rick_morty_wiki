@@ -37,10 +37,10 @@ class MyApp extends StatelessWidget {
             create: (context) => BottomNavBarCubit(),
           ),
           BlocProvider(
-            create: (context) => CharacterCubit(CharacterRepository()),
+            create: (context) => CharacterCubit(),
           ),
           BlocProvider(
-            create: (context) => LocationCubit(LocationRepository()),
+            create: (context) => LocationCubit(),
           ),
           BlocProvider(
             create: (context) => DropdownCubit(),

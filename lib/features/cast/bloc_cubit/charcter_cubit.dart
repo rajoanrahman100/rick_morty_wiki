@@ -3,19 +3,23 @@ import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/repository/characters_repository.dart';
 
 class CharacterCubit extends Cubit<CharacterSate> {
-  final CharacterRepository characterRepository;
-  int currentPage = 1;
+  CharacterCubit() : super(InitialCharacterState());
 
-  CharacterCubit(this.characterRepository) : super(InitialCharacterState());
+  CharacterRepository characterRepository = CharacterRepository();
+  //int currentPage = 1;
 
-  Future<void> fetchCharacters({page}) async {
+  Future<void> fetchCharacters({int? currentPage,String? status,String? query}) async {
     emit(LoadingCharacterState());
     try {
-      final response = await characterRepository.getAllCharacters(currentPage);
-      emit(ResponseCharacterState(response));
-
+      final response = await characterRepository.getAllCharacters(page: currentPage??1, status: status??"", query: query??"");
+      if(query!.isEmpty){
+        emit(ResponseCharacterState(response));
+      }else{
+        emit(ResponseFilteredCharacterState(response));
+      }
     } catch (e) {
       emit(ErrorCharacterState(e.toString()));
     }
   }
+
 }

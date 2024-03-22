@@ -15,7 +15,7 @@ class CastItemWidget extends StatelessWidget {
     required this.width,
   });
 
-  final Result data;
+  final CharactersResult data;
   final double? height;
   final double? width;
 
