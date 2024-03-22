@@ -12,7 +12,26 @@ class CharacterRepository {
       Uri.parse(ApiEndpoints.baseGraphql),
       headers: ApiEndpoints.headers,
       body: jsonEncode({
-        "query":GraphQLQueries.getAllCharactersQuery(page),
+        "query": GraphQLQueries.getAllCharactersQuery(page),
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body);
+      CharacterModel characterModel = CharacterModel.fromJson(result);
+      log(response.body);
+      return characterModel;
+    } else {
+      throw Exception('Failed to load characters ${response.statusCode}');
+    }
+  }
+
+  Future<CharacterModel> getCharactersFilter({status, query}) async {
+    final response = await http.post(
+      Uri.parse(ApiEndpoints.baseGraphql),
+      headers: ApiEndpoints.headers,
+      body: jsonEncode({
+        "query": GraphQLQueries.getCharactersFilteredQuery(status: status, query: query),
       }),
     );
 

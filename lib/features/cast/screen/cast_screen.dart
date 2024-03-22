@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -162,6 +160,8 @@ class _CastScreenState extends State<CastScreen> {
                                       const EdgeInsets.only(left: 15.0, right: 10.0, top: 10.0, bottom: 15.0),
                                   suffixIcon: GestureDetector(
                                       onTap: () {
+                                        context.read<CharacterCubit>().fetchFilteredCharacters(
+                                            status: context.read<DropdownCubit>().state, query: _searchController.text);
                                         print(
                                             "Value is ${_searchController.text} and item is ${context.read<DropdownCubit>().state}");
                                       },
@@ -220,6 +220,48 @@ class _CastScreenState extends State<CastScreen> {
                         }
                       });
                     } else if (state is ErrorCharacterState) {
+                      return Center(child: Text(state.error));
+                    }else if(state is LoadingFilteredCharacterState){
+                      return const Center(child: CircularProgressIndicator());
+                    }else if(state is ResponseFilteredCharacterState){
+                      return LayoutBuilder(builder: (context, constraints) {
+                        if (constraints.maxWidth < 600) {
+                          return GridView.count(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            controller: _scrollController,
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.85,
+                            crossAxisSpacing: 15.0,
+                            mainAxisSpacing: 15.0,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
+                              var data = state.characterModel.data!.characters!.results![index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    context.read<FavouriteCharacterCubit>().addItem(data);
+                                  },
+                                  child: CastItemWidget(data: data, height: height, width: width));
+                            }),
+                          );
+                        } else {
+                          // Tab layout
+                          return GridView.count(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            crossAxisCount: 4,
+                            childAspectRatio: 0.85,
+                            crossAxisSpacing: 15.0,
+                            mainAxisSpacing: 15.0,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
+                              var data = state.characterModel.data!.characters!.results![index];
+                              return CastItemWidget(data: data, height: height, width: width);
+                            }),
+                          );
+                        }
+                      });
+                    }else if(state is ErrorFilteredCharacterState){
                       return Center(child: Text(state.error));
                     }
                     return Container();
