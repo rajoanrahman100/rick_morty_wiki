@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:ricky_morty_wiki/core/constants/app_assets.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/core/constants/text_styles.dart';
 import 'package:ricky_morty_wiki/core/helper/app_size.dart';
@@ -10,7 +11,7 @@ import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
-import 'package:ricky_morty_wiki/features/cast/bloc_cubit/favourite_character_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/widgets/drop_down_widget.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 
 class CastScreen extends StatefulWidget {
@@ -22,10 +23,10 @@ class _CastScreenState extends State<CastScreen> {
   final ScrollController _scrollController = ScrollController();
 
   final List<String> items = [
-    'name',
-    'status',
-    'species',
-    'gender',
+    AppAssets.nameFilter,
+    AppAssets.speciesFilter,
+    AppAssets.genderFilter,
+    AppAssets.statusFilter
   ];
 
   final TextEditingController _searchController = TextEditingController();
@@ -71,77 +72,7 @@ class _CastScreenState extends State<CastScreen> {
                         children: [
                           BlocBuilder<DropdownCubit, String?>(
                             builder: (context, selectedValue) {
-                              return DropdownButtonHideUnderline(
-                                  child: DropdownButton2<String>(
-                                isExpanded: true,
-                                hint: const Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'Select',
-                                      style: bodySemiBold14,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                                items: items
-                                    .map((String item) => DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ))
-                                    .toList(),
-                                value: selectedValue,
-                                onChanged: (value) {
-                                  context.read<DropdownCubit>().selectItem(value!);
-                                },
-                                buttonStyleData: ButtonStyleData(
-                                  height: 50,
-                                  width: 150,
-                                  padding: const EdgeInsets.only(left: 14, right: 14),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(24),
-                                      bottomLeft: Radius.circular(24),
-                                    ),
-                                    border: Border.all(
-                                      color: Colors.black26,
-                                    ),
-                                    color: AppColors.filterBackgroundColor,
-                                  ),
-                                  elevation: 2,
-                                ),
-                                iconStyleData: const IconStyleData(
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                  ),
-                                  iconSize: 14,
-                                  iconEnabledColor: AppColors.white,
-                                  iconDisabledColor: AppColors.white,
-                                ),
-                                dropdownStyleData: DropdownStyleData(
-                                  maxHeight: 200,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14),
-                                    color: AppColors.filterBackgroundColor,
-                                  ),
-                                  //offset: const Offset(-20, 0),
-                                ),
-                                menuItemStyleData: const MenuItemStyleData(
-                                  height: 40,
-                                  padding: EdgeInsets.only(left: 14, right: 14),
-                                ),
-                              ));
+                              return DropDownButtonWidget(items: items, selectedValue: selectedValue);
                             },
                           ),
                           Expanded(
@@ -160,10 +91,20 @@ class _CastScreenState extends State<CastScreen> {
                                       const EdgeInsets.only(left: 15.0, right: 10.0, top: 10.0, bottom: 15.0),
                                   suffixIcon: GestureDetector(
                                       onTap: () {
-                                        context.read<CharacterCubit>().fetchFilteredCharacters(
-                                            status: context.read<DropdownCubit>().state, query: _searchController.text);
-                                        print(
-                                            "Value is ${_searchController.text} and item is ${context.read<DropdownCubit>().state}");
+                                        final dropdownState = context.read<DropdownCubit>().state;
+                                        if (dropdownState != AppAssets.nameFilter &&
+                                            dropdownState != AppAssets.statusFilter &&
+                                            dropdownState != AppAssets.speciesFilter &&
+                                            dropdownState != AppAssets.genderFilter) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(content: Text("Select item from the dropdown first")),
+                                          );
+                                        } else {
+                                          context
+                                              .read<CharacterCubit>()
+                                              .fetchCharacters(status: dropdownState, query: _searchController.text);
+                                          print("Value is ${_searchController.text} and item is ${dropdownState}");
+                                        }
                                       },
                                       child: const Icon(
                                         Icons.search,
@@ -184,87 +125,29 @@ class _CastScreenState extends State<CastScreen> {
                     } else if (state is ResponseCharacterState) {
                       return LayoutBuilder(builder: (context, constraints) {
                         if (constraints.maxWidth < 600) {
-                          return GridView.count(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            controller: _scrollController,
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.85,
-                            crossAxisSpacing: 15.0,
-                            mainAxisSpacing: 15.0,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
-                              var data = state.characterModel.data!.characters!.results![index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    context.read<FavouriteCharacterCubit>().addItem(data);
-                                  },
-                                  child: CastItemWidget(data: data, height: height, width: width));
-                            }),
-                          );
+                          return buildGridViewCharacters(state, context, height, width, 2);
+                        } else {
+                          return buildGridViewCharacters(state, context, height, width, 4);
+                        }
+                      });
+                    } else if (state is ResponseFilteredCharacterState) {
+                      return LayoutBuilder(builder: (context, constraints) {
+                        if (constraints.maxWidth < 600) {
+                          return buildGridViewFilteredCharacters(state, context, height, width, 2);
                         } else {
                           // Tab layout
-                          return GridView.count(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            crossAxisCount: 4,
-                            childAspectRatio: 0.85,
-                            crossAxisSpacing: 15.0,
-                            mainAxisSpacing: 15.0,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
-                              var data = state.characterModel.data!.characters!.results![index];
-                              return CastItemWidget(data: data, height: height, width: width);
-                            }),
-                          );
+                          return buildGridViewFilteredCharacters(state, context, height, width, 4);
                         }
                       });
                     } else if (state is ErrorCharacterState) {
                       return Center(child: Text(state.error));
-                    }else if(state is LoadingFilteredCharacterState){
-                      return const Center(child: CircularProgressIndicator());
-                    }else if(state is ResponseFilteredCharacterState){
-                      return LayoutBuilder(builder: (context, constraints) {
-                        if (constraints.maxWidth < 600) {
-                          return GridView.count(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            controller: _scrollController,
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.85,
-                            crossAxisSpacing: 15.0,
-                            mainAxisSpacing: 15.0,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
-                              var data = state.characterModel.data!.characters!.results![index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    context.read<FavouriteCharacterCubit>().addItem(data);
-                                  },
-                                  child: CastItemWidget(data: data, height: height, width: width));
-                            }),
-                          );
-                        } else {
-                          // Tab layout
-                          return GridView.count(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            crossAxisCount: 4,
-                            childAspectRatio: 0.85,
-                            crossAxisSpacing: 15.0,
-                            mainAxisSpacing: 15.0,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
-                              var data = state.characterModel.data!.characters!.results![index];
-                              return CastItemWidget(data: data, height: height, width: width);
-                            }),
-                          );
-                        }
-                      });
-                    }else if(state is ErrorFilteredCharacterState){
-                      return Center(child: Text(state.error));
                     }
-                    return Container();
+                    return Center(
+                      child: Text(
+                        "No Data Found",
+                        style: bodySemiBold14,
+                      ),
+                    );
                   }),
                 ],
               ),
@@ -274,4 +157,39 @@ class _CastScreenState extends State<CastScreen> {
       ),
     );
   }
+
+  GridView buildGridViewCharacters(
+      ResponseCharacterState state, BuildContext context, double? height, double? width, int? crossAxisCount) {
+    return GridView.count(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      crossAxisCount: crossAxisCount!,
+      childAspectRatio: 0.85,
+      crossAxisSpacing: 15.0,
+      mainAxisSpacing: 15.0,
+      physics: const NeverScrollableScrollPhysics(),
+      children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
+        var data = state.characterModel.data!.characters!.results![index];
+        return GestureDetector(onTap: () {}, child: CastItemWidget(data: data, height: height, width: width));
+      }),
+    );
+  }
+
+  GridView buildGridViewFilteredCharacters(
+      ResponseFilteredCharacterState state, BuildContext context, double? height, double? width, int? crossAxisCount) {
+    return GridView.count(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      crossAxisCount: crossAxisCount!,
+      childAspectRatio: 0.85,
+      crossAxisSpacing: 15.0,
+      mainAxisSpacing: 15.0,
+      physics: const NeverScrollableScrollPhysics(),
+      children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
+        var data = state.characterModel.data!.characters!.results![index];
+        return GestureDetector(onTap: () {}, child: CastItemWidget(data: data, height: height, width: width));
+      }),
+    );
+  }
 }
+

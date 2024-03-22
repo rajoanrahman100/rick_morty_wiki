@@ -6,25 +6,20 @@ class CharacterCubit extends Cubit<CharacterSate> {
   CharacterCubit() : super(InitialCharacterState());
 
   CharacterRepository characterRepository = CharacterRepository();
-  int currentPage = 1;
+  //int currentPage = 1;
 
-  Future<void> fetchCharacters() async {
+  Future<void> fetchCharacters({int? currentPage,String? status,String? query}) async {
     emit(LoadingCharacterState());
     try {
-      final response = await characterRepository.getAllCharacters(currentPage);
-      emit(ResponseCharacterState(response));
+      final response = await characterRepository.getAllCharacters(page: currentPage??1, status: status??"", query: query??"");
+      if(query!.isEmpty){
+        emit(ResponseCharacterState(response));
+      }else{
+        emit(ResponseFilteredCharacterState(response));
+      }
     } catch (e) {
       emit(ErrorCharacterState(e.toString()));
     }
   }
 
-  Future<void> fetchFilteredCharacters({status, query}) async {
-    emit(LoadingFilteredCharacterState());
-    try {
-      final response = await characterRepository.getCharactersFilter(status: status, query: query);
-      emit(ResponseFilteredCharacterState(response));
-    } catch (e) {
-      emit(ErrorFilteredCharacterState(e.toString()));
-    }
-  }
 }

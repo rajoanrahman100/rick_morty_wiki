@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<CharacterCubit>().fetchCharacters();
+      context.read<CharacterCubit>().fetchCharacters(currentPage: 1,status: "name",query: "");
       context.read<LocationCubit>().fetchLocations();
     });
   }

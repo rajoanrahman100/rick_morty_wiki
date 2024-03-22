@@ -12,6 +12,7 @@ class ResponseCharacterState extends CharacterSate {
   ResponseCharacterState(this.characterModel);
 }
 
+
 class ErrorCharacterState extends CharacterSate {
   final String error;
 
