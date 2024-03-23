@@ -10,7 +10,8 @@ import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
-import 'package:ricky_morty_wiki/features/cast/model/character_model.dart';
+import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_character_state.dart';
+import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_state.dart';
@@ -30,8 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<CharacterCubit>().fetchCharacters(currentPage: 1,status: "name",query: "");
+      context.read<CharacterCubit>().fetchCharacters(currentPage: 1, status: "name", query: "");
       context.read<LocationCubit>().fetchLocations();
+      context.read<FavouriteCharactersCubit>().loadObjects();
     });
   }
 
@@ -65,12 +67,70 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Gap(24),
-                Container(
-                  width: width,
-                  height: 220,
-                  color: AppColors.backgroundColor,
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                ),
+                BlocBuilder<FavouriteCharactersCubit, FavouriteCharactersState>(builder: (context, state) {
+
+                  if(state is InitialFavouriteCharacterState){
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  else if (state is FavouriteCharacterUpdateState) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: SizedBox(
+                        height: 220,
+                        width: width,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.favouriteCharactersList.length,
+                          shrinkWrap: true,
+                          itemBuilder: (_, index) {
+                            var data = state.favouriteCharactersList[index];
+                            return GestureDetector(
+                                onTap: () {
+                                  context.read<FavouriteCharactersCubit>().removeFavouriteCharacter(id: data.id);
+                                },
+                                child: Container(
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: AppColors.white),
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: CachedNetworkImage(
+                                          imageUrl: data.image ?? "",
+                                          imageBuilder: (context, imageProvider) => Container(
+                                            height: height,
+                                            width: width,
+                                            decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                              image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Gap(10),
+                                      Text(data.name ?? "", style: bodyMedium12),
+                                    ]),
+                                  ),
+                                ));
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Gap(24.0);
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  else if(state is EmptyFavouriteCharacterListState){
+                    return const Text("No characters has added yet", style: bodySemiBold12);
+                  }
+                  return Container();
+                }),
                 const Gap(30.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -78,9 +138,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text("Meet the cast", style: bodySemiBold16),
-                      GestureDetector(onTap: () {
-                        context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
-                      }, child: ViewAllContainer()),
+                      GestureDetector(
+                          onTap: () {
+                            context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
+                          },
+                          child: ViewAllContainer()),
                     ],
                   ),
                 ),
@@ -188,5 +250,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
