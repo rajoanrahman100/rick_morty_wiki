@@ -13,11 +13,15 @@ class CastItemWidget extends StatelessWidget {
     required this.data,
     required this.height,
     required this.width,
+    this.callBackCastFavourite,
+    this.callBackCastDetails,
   });
 
   final CharactersResult data;
   final double? height;
   final double? width;
+  final VoidCallback? callBackCastFavourite;
+  final VoidCallback? callBackCastDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +34,39 @@ class CastItemWidget extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
             flex: 2,
-            child: CachedNetworkImage(
-              imageUrl: data.image ?? "",
-              imageBuilder: (context, imageProvider) => Container(
-                height: height,
-                width: width,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            child:Stack(
+              children: [
+                GestureDetector(
+                  onTap: callBackCastDetails,
+                  child: CachedNetworkImage(
+                    imageUrl: data.image ?? "",
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: height,
+                      width: width,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+                GestureDetector(
+                  onTap: callBackCastFavourite,
+                  child: Container(
+                    decoration:  BoxDecoration(
+                      color: AppColors.black.withOpacity(0.4),
+                      borderRadius:  const BorderRadius.all(Radius.circular(3)),
+                    ),
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(2),
+                    child: const Icon(Icons.star_border_outlined, color: AppColors.black),
+                  ),
+                )
+              ]
+            )
           ),
           const Gap(10),
           Text(data.name ?? "", style: bodyMedium12),

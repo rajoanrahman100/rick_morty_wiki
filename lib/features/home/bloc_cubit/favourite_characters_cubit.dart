@@ -34,7 +34,11 @@ class FavouriteCharactersCubit extends Cubit<FavouriteCharactersState> {
     log(favouriteCharactersList.length.toString());
     await _sharedPrefHelper.saveFavouriteCharacters(favouriteCharactersList);
     await _sharedPrefHelper.loadFavouriteCharacters();
-    emit(FavouriteCharacterUpdateState(favouriteCharactersList));
+    if (favouriteCharactersList.isEmpty) {
+      emit(EmptyFavouriteCharacterListState());
+    } else {
+      emit(FavouriteCharacterUpdateState(favouriteCharactersList));
+    }
   }
 
   Future<void> loadObjects() async {

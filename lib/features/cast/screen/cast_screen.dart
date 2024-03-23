@@ -103,6 +103,7 @@ class _CastScreenState extends State<CastScreen> {
                                           context
                                               .read<CharacterCubit>()
                                               .fetchCharacters(status: dropdownState, query: _searchController.text);
+                                          context.read<CounterCubit>().reset();
                                           print("Value is ${_searchController.text} and item is ${dropdownState}");
                                         }
                                       },
@@ -131,41 +132,27 @@ class _CastScreenState extends State<CastScreen> {
                               const Gap(20.0),
                               BlocBuilder<CounterCubit, int>(
                                 builder: (context, state) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      state == 1
-                                          ? const Text("")
-                                          : GestureDetector(
-                                              onTap: () {
-                                                context.read<CounterCubit>().decrement();
-                                                state--;
-                                                print("State value $state");
-                                                context
-                                                    .read<CharacterCubit>()
-                                                    .fetchCharacters(currentPage: state, status: "name", query: "");
-                                              }, child: const Text("< prev", style: bodySemiBold14)),
-                                      Text("page : $state", style: bodySemiBold14),
-                                      state >= 42
-                                          ? const Text("")
-                                          : GestureDetector(
-                                              onTap: () {
-                                                context.read<CounterCubit>().increment();
-                                                state++;
-
-                                                context
-                                                    .read<CharacterCubit>()
-                                                    .fetchCharacters(currentPage: state, status: "name", query: "");
-                                              },
-                                              child: const Text("next >", style: bodySemiBold14)),
-                                    ],
+                                  return NextPageCharactersFetch(
+                                    value: state,
                                   );
                                 },
                               ),
                             ],
                           );
                         } else {
-                          return buildGridViewCharacters(state, context, height, width, 4);
+                          return Column(
+                            children: [
+                              buildGridViewCharacters(state, context, height, width, 4),
+                              const Gap(20.0),
+                              BlocBuilder<CounterCubit, int>(
+                                builder: (context, state) {
+                                  return NextPageCharactersFetch(
+                                    value: state,
+                                  );
+                                },
+                              ),
+                            ],
+                          );
                         }
                       });
                     } else if (state is ResponseFilteredCharacterState) {
@@ -209,13 +196,15 @@ class _CastScreenState extends State<CastScreen> {
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
         var data = state.characterModel.data!.characters!.results![index];
-        return GestureDetector(
-            onTap: () {
+        return CastItemWidget(
+            callBackCastFavourite: () {
               context
                   .read<FavouriteCharactersCubit>()
                   .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
             },
-            child: CastItemWidget(data: data, height: height, width: width));
+            data: data,
+            height: height,
+            width: width);
       }),
     );
   }
@@ -232,14 +221,54 @@ class _CastScreenState extends State<CastScreen> {
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
         var data = state.characterModel.data!.characters!.results![index];
-        return GestureDetector(
-            onTap: () {
+        return CastItemWidget(
+            callBackCastFavourite: () {
               context
                   .read<FavouriteCharactersCubit>()
                   .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
             },
-            child: CastItemWidget(data: data, height: height, width: width));
+            data: data,
+            height: height,
+            width: width);
       }),
+    );
+  }
+}
+
+class NextPageCharactersFetch extends StatelessWidget {
+  NextPageCharactersFetch({
+    required this.value,
+  });
+
+  int value = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        value == 1
+            ? const Text("")
+            : GestureDetector(
+                onTap: () {
+                  context.read<CounterCubit>().decrement();
+                  value--;
+
+                  context.read<CharacterCubit>().fetchCharacters(currentPage: value, status: "name", query: "");
+                },
+                child: const Text("< prev", style: bodySemiBold14)),
+        Text("page : $value", style: bodySemiBold14),
+        value >= 42
+            ? const Text("")
+            : GestureDetector(
+                onTap: () {
+                  context.read<CounterCubit>().increment();
+                  value++;
+
+                  context.read<CharacterCubit>().fetchCharacters(currentPage: value, status: "name", query: "");
+                },
+                child: const Text("next >", style: bodySemiBold14)),
+      ],
     );
   }
 }

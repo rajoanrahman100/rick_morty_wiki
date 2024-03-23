@@ -59,13 +59,15 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 const Gap(30.0),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Favorite", style: bodySemiBold16),
-                      ViewAllContainer(),
+                      const Text("Favorite", style: bodySemiBold16),
+                      GestureDetector(onTap: (){
+                        context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
+                      },child: const ViewAllContainer()),
                     ],
                   ),
                 ),
@@ -120,11 +122,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Container(
                                               decoration:  BoxDecoration(
                                                 color: AppColors.black.withOpacity(0.4),
-                                                borderRadius:  BorderRadius.all(Radius.circular(3)),
+                                                borderRadius:  const BorderRadius.all(Radius.circular(3)),
                                               ),
-                                              margin: EdgeInsets.all(5),
-                                              padding: EdgeInsets.all(2),
-                                              child: Icon(Icons.star, color: AppColors.favouriteColor),
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(2),
+                                              child: const Icon(Icons.star, color: AppColors.favouriteColor),
                                             )
                                           ]
                                         ),
@@ -158,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
                           },
-                          child: ViewAllContainer()),
+                          child: const ViewAllContainer()),
                     ],
                   ),
                 ),
@@ -178,7 +180,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           shrinkWrap: true,
                           itemBuilder: (_, index) {
                             var data = state.characterModel.data!.characters!.results![index];
-                            return CastItemWidget(data: data, height: height, width: width);
+                            return CastItemWidget(callBackCastFavourite: (){
+                              context
+                                  .read<FavouriteCharactersCubit>()
+                                  .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
+                            },data: data, height: height, width: width);
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return const Gap(24.0);
@@ -246,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                   return Container();
                 }),
-                Gap(30),
+                const Gap(30),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
