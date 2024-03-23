@@ -10,4 +10,6 @@ class AppColors {
 
   static const Color gdYellowGreen = Color(0xFF84F729);
   static const Color gdBluishCyan = Color(0xFF15BFFD);
+  static const Color favouriteColor = Color(0xFFFFC107
+  );
 }

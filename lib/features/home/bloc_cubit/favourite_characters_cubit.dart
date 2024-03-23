@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ricky_morty_wiki/core/helper/shared_pref_helper.dart';
+import 'package:ricky_morty_wiki/core/helper/show_snackbar.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_character_state.dart';
 import 'package:ricky_morty_wiki/features/home/model/favourite_character_result.dart';
 
@@ -21,15 +22,10 @@ class FavouriteCharactersCubit extends Cubit<FavouriteCharactersState> {
       log(favouriteCharactersList.length.toString());
       await _sharedPrefHelper.saveFavouriteCharacters(favouriteCharactersList);
       await _sharedPrefHelper.loadFavouriteCharacters();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("$name has added to your favourite list")),
-      );
+      showSnackBar(context, "$name has added to your favourite list");
       emit(FavouriteCharacterUpdateState(favouriteCharactersList));
-
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("$name already been added to your favourite list")),
-      );
+      showSnackBar(context, "$name already been added to your favourite list");
     }
   }
 
