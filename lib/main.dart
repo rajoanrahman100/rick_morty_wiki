@@ -10,6 +10,7 @@ import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/repository/characters_repository.dart';
 import 'package:ricky_morty_wiki/features/cast_details/bloc_cubit/cast_details_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast_details/screen/cast_details_screen.dart';
+import 'package:ricky_morty_wiki/features/episodes/bloc_cubit/episode_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/repository/location_repository.dart';
@@ -67,6 +68,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => CounterCubit(),
+          ),
+          BlocProvider(
+            create: (context) => EpisodeCubit(),
           ),
         ],
         child: AppNavigator(),
