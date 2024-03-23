@@ -98,19 +98,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                       Expanded(
                                         flex: 2,
-                                        child: CachedNetworkImage(
-                                          imageUrl: data.image ?? "",
-                                          imageBuilder: (context, imageProvider) => Container(
-                                            height: height,
-                                            width: width,
-                                            decoration: BoxDecoration(
-                                              borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                              image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.cover,
+                                        child: Stack(
+                                          children: [
+                                            CachedNetworkImage(
+                                              imageUrl: data.image ?? "",
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                height: height,
+                                                width: width,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            Container(
+                                              decoration:  BoxDecoration(
+                                                color: AppColors.black.withOpacity(0.4),
+                                                borderRadius:  BorderRadius.all(Radius.circular(3)),
+                                              ),
+                                              margin: EdgeInsets.all(5),
+                                              padding: EdgeInsets.all(2),
+                                              child: Icon(Icons.star, color: AppColors.favouriteColor),
+                                            )
+                                          ]
                                         ),
                                       ),
                                       const Gap(10),
