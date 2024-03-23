@@ -1,4 +1,3 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -12,6 +11,7 @@ import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/widgets/drop_down_widget.dart';
+import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 
 class CastScreen extends StatefulWidget {
@@ -170,7 +170,14 @@ class _CastScreenState extends State<CastScreen> {
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
         var data = state.characterModel.data!.characters!.results![index];
-        return GestureDetector(onTap: () {}, child: CastItemWidget(data: data, height: height, width: width));
+        return GestureDetector(
+            onTap: () {
+              context
+                  .read<FavouriteCharactersCubit>()
+                  .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!,context: context);
+
+            },
+            child: CastItemWidget(data: data, height: height, width: width));
       }),
     );
   }
@@ -192,4 +199,3 @@ class _CastScreenState extends State<CastScreen> {
     );
   }
 }
-

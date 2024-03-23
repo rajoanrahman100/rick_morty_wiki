@@ -1,12 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
+import 'package:ricky_morty_wiki/features/cast/model/character_model.dart';
 import 'package:ricky_morty_wiki/features/cast/repository/characters_repository.dart';
 
 class CharacterCubit extends Cubit<CharacterSate> {
   CharacterCubit() : super(InitialCharacterState());
 
   CharacterRepository characterRepository = CharacterRepository();
-  //int currentPage = 1;
+  List<CharactersResult> charactersList = [];
 
   Future<void> fetchCharacters({int? currentPage,String? status,String? query}) async {
     emit(LoadingCharacterState());
@@ -20,6 +21,10 @@ class CharacterCubit extends Cubit<CharacterSate> {
     } catch (e) {
       emit(ErrorCharacterState(e.toString()));
     }
+  }
+
+  void addFavoriteCharacters(CharacterModel characterModel){
+    emit(ResponseCharacterState(characterModel));
   }
 
 }

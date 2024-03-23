@@ -10,6 +10,16 @@ class ResponseCharacterState extends CharacterSate {
   final CharacterModel characterModel;
 
   ResponseCharacterState(this.characterModel);
+} 
+
+class ResponseFilteredCharacterState extends CharacterSate {
+  final CharacterModel characterModel;
+  ResponseFilteredCharacterState(this.characterModel);
+}
+
+class AddFavoriteCharacterState extends CharacterSate {
+  final CharacterModel characterModel;
+  AddFavoriteCharacterState(this.characterModel);
 }
 
 
@@ -17,18 +27,4 @@ class ErrorCharacterState extends CharacterSate {
   final String error;
 
   ErrorCharacterState(this.error);
-}
-
-class LoadingFilteredCharacterState extends CharacterSate {}
-
-class ResponseFilteredCharacterState extends CharacterSate {
-  final CharacterModel characterModel;
-
-  ResponseFilteredCharacterState(this.characterModel);
-}
-
-class ErrorFilteredCharacterState extends CharacterSate {
-  final String error;
-
-  ErrorFilteredCharacterState(this.error);
 }
