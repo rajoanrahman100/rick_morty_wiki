@@ -7,7 +7,6 @@ class CharacterCubit extends Cubit<CharacterSate> {
   CharacterCubit() : super(InitialCharacterState());
 
   CharacterRepository characterRepository = CharacterRepository();
-  List<CharactersResult> charactersList = [];
 
   Future<void> fetchCharacters({int? currentPage,String? status,String? query}) async {
     emit(LoadingCharacterState());
@@ -21,10 +20,6 @@ class CharacterCubit extends Cubit<CharacterSate> {
     } catch (e) {
       emit(ErrorCharacterState(e.toString()));
     }
-  }
-
-  void addFavoriteCharacters(CharacterModel characterModel){
-    emit(ResponseCharacterState(characterModel));
   }
 
 }

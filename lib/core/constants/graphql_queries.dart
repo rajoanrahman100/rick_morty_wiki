@@ -1,5 +1,5 @@
 class GraphQLQueries {
-  static String getAllCharactersQuery({String? status, String? query,int? page}) {
+  static String getAllCharactersQuery({String? status, String? query, int? page}) {
     return """
       query {
         characters( filter: { $status: "$query" },page: $page) {
@@ -46,6 +46,33 @@ class GraphQLQueries {
           }
         }
       }
+
+    """;
+  }
+
+  static String getCastDetailsQuery({int? id}) {
+    return """
+        query {
+           character(id: $id) {
+              id
+              name
+              image
+              status
+              species
+             
+              gender
+              location{
+                name
+              }
+              origin{
+                name
+              }
+              episode{
+                name 
+              }   
+    
+           }
+        }
 
     """;
   }
