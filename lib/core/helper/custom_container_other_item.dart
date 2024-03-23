@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 
-class BorderPainter extends CustomPainter {
+class BorderCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final gradient = LinearGradient(
@@ -16,7 +16,7 @@ class BorderPainter extends CustomPainter {
     final shader = gradient.createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     var paint = Paint()
-      //..color = Colors.black // Set border color here
+    //..color = Colors.black // Set border color here
       ..shader = shader
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5;
@@ -27,11 +27,11 @@ class BorderPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     // TODO: implement shouldRepaint
-    throw UnimplementedError();
+    return false;
   }
 }
 
-class AngledBottomRightCorner extends CustomClipper<Path> {
+class CustomAngledBottomRightCorner extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = getPath(size);
