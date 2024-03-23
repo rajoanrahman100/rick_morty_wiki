@@ -41,13 +41,16 @@ class Data {
 }
 
 class Characters {
+  Info? info;
   List<CharactersResult>? results;
 
   Characters({
+    this.info,
     this.results,
   });
 
   factory Characters.fromJson(Map<String, dynamic> json) => Characters(
+    info: json["info"] == null ? null : Info.fromJson(json["info"]),
     results: json["results"] == null ? [] : List<CharactersResult>.from(json["results"]!.map((x) => CharactersResult.fromJson(x))),
   );
 
@@ -96,3 +99,22 @@ class CharactersResult {
   };
 }
 
+class Info {
+  int? count;
+  int? pages;
+
+  Info({
+    this.count,
+    this.pages,
+  });
+
+  factory Info.fromJson(Map<String, dynamic> json) => Info(
+    count: json["count"],
+    pages: json["pages"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "count": count,
+    "pages": pages,
+  };
+}

@@ -10,6 +10,7 @@ import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_character_state.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
@@ -33,9 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<CharacterCubit>().fetchCharacters(currentPage: 1, status: "name", query: "");
       context.read<LocationCubit>().fetchLocations();
+      context.read<CounterCubit>().reset();
       context.read<FavouriteCharactersCubit>().loadObjects();
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

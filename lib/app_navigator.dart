@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ricky_morty_wiki/features/cast_details/screen/cast_details_screen.dart';
 import 'package:ricky_morty_wiki/features/splash/bloc/splash_cubit.dart';
 import 'package:ricky_morty_wiki/features/splash/screen/splash_screen.dart';
 
@@ -14,7 +13,7 @@ class AppNavigator extends StatelessWidget {
         if (!splashFinished) {
           return const SplashScreen();
         } else {
-          return CastDetailsScreen();
+          return BottomNavBarScreen();
         }
       },
     );
