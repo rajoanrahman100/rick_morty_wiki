@@ -7,6 +7,7 @@ import 'package:ricky_morty_wiki/core/constants/text_styles.dart';
 import 'package:ricky_morty_wiki/core/helper/app_size.dart';
 import 'package:ricky_morty_wiki/core/helper/bg_overlay_image.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
+import 'package:ricky_morty_wiki/core/helper/show_snackbar.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
@@ -96,9 +97,7 @@ class _CastScreenState extends State<CastScreen> {
                                             dropdownState != AppAssets.statusFilter &&
                                             dropdownState != AppAssets.speciesFilter &&
                                             dropdownState != AppAssets.genderFilter) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(content: Text("Select item from the dropdown first")),
-                                          );
+                                          showSnackBar(context, "Select item from the dropdown first");
                                         } else {
                                           context
                                               .read<CharacterCubit>()
