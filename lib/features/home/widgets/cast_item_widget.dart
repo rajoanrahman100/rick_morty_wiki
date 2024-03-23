@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/core/constants/text_styles.dart';
+import 'package:ricky_morty_wiki/core/helper/custom_container_cast_item.dart';
 
 import '../../cast/model/character_model.dart';
 
@@ -25,52 +26,56 @@ class CastItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColors.white), borderRadius: BorderRadius.circular(5.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-            flex: 2,
-            child:Stack(
-              children: [
-                GestureDetector(
-                  onTap: callBackCastDetails,
-                  child: CachedNetworkImage(
-                    imageUrl: data.image ?? "",
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: height,
-                      width: width,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(5)),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
+    return CustomPaint(
+      painter: BorderPainter(),
+      child: ClipPath(
+        clipper: AngledBottomRightCorner(),
+        child: SizedBox(
+          width: 200,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                flex: 2,
+                child:Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: callBackCastDetails,
+                      child: CachedNetworkImage(
+                        imageUrl: data.image ?? "",
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: height,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: callBackCastFavourite,
-                  child: Container(
-                    decoration:  BoxDecoration(
-                      color: AppColors.black.withOpacity(0.4),
-                      borderRadius:  const BorderRadius.all(Radius.circular(3)),
-                    ),
-                    margin: const EdgeInsets.all(5),
-                    padding: const EdgeInsets.all(2),
-                    child: const Icon(Icons.star_border_outlined, color: AppColors.black),
-                  ),
+                    GestureDetector(
+                      onTap: callBackCastFavourite,
+                      child: Container(
+                        decoration:  BoxDecoration(
+                          color: AppColors.black.withOpacity(0.4),
+                          borderRadius:  const BorderRadius.all(Radius.circular(3)),
+                        ),
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(2),
+                        child: const Icon(Icons.star_border_outlined, color: AppColors.black),
+                      ),
+                    )
+                  ]
                 )
-              ]
-            )
+              ),
+              const Gap(10),
+              Text(data.name ?? "", style: bodyMedium12),
+            ]),
           ),
-          const Gap(10),
-          Text(data.name ?? "", style: bodyMedium12),
-        ]),
+        ),
       ),
     );
   }

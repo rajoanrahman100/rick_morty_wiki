@@ -62,4 +62,20 @@ class GraphQLQueries {
 
     """;
   }
+
+  static String getEpisodeList() {
+    return """
+        query {
+           episodes{
+              results{
+                name
+                episode
+                id
+             }
+           }
+
+        }
+
+    """;
+  }
 }
