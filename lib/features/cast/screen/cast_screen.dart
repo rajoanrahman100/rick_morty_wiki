@@ -10,10 +10,9 @@ import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/core/helper/show_snackbar.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/widgets/drop_down_widget.dart';
-import 'package:ricky_morty_wiki/features/cast_details/bloc_cubit/navigator_cubit.dart';
-import 'package:ricky_morty_wiki/features/cast_details/screen/cast_details_screen.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 
@@ -126,7 +125,45 @@ class _CastScreenState extends State<CastScreen> {
                     } else if (state is ResponseCharacterState) {
                       return LayoutBuilder(builder: (context, constraints) {
                         if (constraints.maxWidth < 600) {
-                          return buildGridViewCharacters(state, context, height, width, 2);
+                          return Column(
+                            children: [
+                              buildGridViewCharacters(state, context, height, width, 2),
+                              const Gap(20.0),
+                              BlocBuilder<CounterCubit, int>(
+                                builder: (context, state) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      state == 1
+                                          ? const Text("")
+                                          : GestureDetector(
+                                              onTap: () {
+                                                context.read<CounterCubit>().decrement();
+                                                state--;
+                                                print("State value $state");
+                                                context
+                                                    .read<CharacterCubit>()
+                                                    .fetchCharacters(currentPage: state, status: "name", query: "");
+                                              }, child: const Text("< prev", style: bodySemiBold14)),
+                                      Text("page : $state", style: bodySemiBold14),
+                                      state >= 42
+                                          ? const Text("")
+                                          : GestureDetector(
+                                              onTap: () {
+                                                context.read<CounterCubit>().increment();
+                                                state++;
+
+                                                context
+                                                    .read<CharacterCubit>()
+                                                    .fetchCharacters(currentPage: state, status: "name", query: "");
+                                              },
+                                              child: const Text("next >", style: bodySemiBold14)),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          );
                         } else {
                           return buildGridViewCharacters(state, context, height, width, 4);
                         }
@@ -176,8 +213,7 @@ class _CastScreenState extends State<CastScreen> {
             onTap: () {
               context
                   .read<FavouriteCharactersCubit>()
-                  .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!,context: context);
-
+                  .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
             },
             child: CastItemWidget(data: data, height: height, width: width));
       }),
@@ -196,11 +232,13 @@ class _CastScreenState extends State<CastScreen> {
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
         var data = state.characterModel.data!.characters!.results![index];
-        return GestureDetector(onTap: () {
-          context
-              .read<FavouriteCharactersCubit>()
-              .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!,context: context);
-        }, child: CastItemWidget(data: data, height: height, width: width));
+        return GestureDetector(
+            onTap: () {
+              context
+                  .read<FavouriteCharactersCubit>()
+                  .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
+            },
+            child: CastItemWidget(data: data, height: height, width: width));
       }),
     );
   }

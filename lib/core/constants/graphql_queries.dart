@@ -3,6 +3,10 @@ class GraphQLQueries {
     return """
       query {
         characters( filter: { $status: "$query" },page: $page) {
+         info {
+            count
+            pages
+         }
           results {
             id
             name
@@ -31,24 +35,6 @@ class GraphQLQueries {
     """;
   }
 
-  static String getCharactersFilteredQuery({String? status, String? query}) {
-    return """
-      query {
-        characters(filter: { $status: "$query" }) {
-          results {
-              id
-              name
-              image
-              status
-              species
-              type
-              gender
-          }
-        }
-      }
-
-    """;
-  }
 
   static String getCastDetailsQuery({int? id}) {
     return """

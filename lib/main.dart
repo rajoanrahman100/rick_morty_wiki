@@ -5,6 +5,7 @@ import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/core/helper/shared_pref_helper.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/repository/characters_repository.dart';
 import 'package:ricky_morty_wiki/features/cast_details/bloc_cubit/cast_details_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dar
 import 'package:ricky_morty_wiki/features/location/repository/location_repository.dart';
 import 'package:ricky_morty_wiki/features/splash/bloc/splash_cubit.dart';
 
-import 'features/cast_details/bloc_cubit/navigator_cubit.dart';
 
 void main() {
   runApp( MyApp());
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             create: (context) => CastDetailsCubit(),
           ),
           BlocProvider(
-            create: (context) => NavigatorCubit(navigatorKey: navigatorKey),
+            create: (context) => CounterCubit(),
           ),
         ],
         child: AppNavigator(),
