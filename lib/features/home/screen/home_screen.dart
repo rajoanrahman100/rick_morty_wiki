@@ -72,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Text("Favorite", style: bodySemiBold16),
                       GestureDetector(
                           onTap: () {
-                            context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
+                            //context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
+                            Navigator.of(context).pushNamed('/favourite');
                           },
                           child: const ViewAllContainer()),
                     ],

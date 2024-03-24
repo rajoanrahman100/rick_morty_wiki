@@ -4,21 +4,24 @@ import 'package:gap/gap.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/core/constants/text_styles.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_container_cast_item.dart';
+import 'package:ricky_morty_wiki/features/home/model/favourite_character_result.dart';
 
 import '../../cast/model/character_model.dart';
 
 
 class CastItemWidget extends StatelessWidget {
-  const CastItemWidget({
+   CastItemWidget({
     super.key,
     required this.data,
     required this.height,
     required this.width,
     this.callBackCastFavourite,
     this.callBackCastDetails,
+
   });
 
   final CharactersResult data;
+
   final double? height;
   final double? width;
   final VoidCallback? callBackCastFavourite;
