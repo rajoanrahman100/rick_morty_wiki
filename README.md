@@ -1,4 +1,4 @@
-# ricky_morty_wiki
+# rick_morty_wiki
 
 A new Flutter project.
 
