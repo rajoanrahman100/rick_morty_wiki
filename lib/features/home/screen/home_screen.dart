@@ -97,42 +97,48 @@ class _HomeScreenState extends State<HomeScreen> {
                               painter: BorderPainter(),
                               child: ClipPath(
                                 clipper: AngledBottomRightCorner(),
-                                child: SizedBox(
-                                  width: 200,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Stack(children: [
-                                          CachedNetworkImage(
-                                            imageUrl: data.image ?? "",
-                                            imageBuilder: (context, imageProvider) => Container(
-                                              height: height,
-                                              width: width,
-                                              decoration: BoxDecoration(
-                                                borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                                image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    context.read<FavouriteCharactersCubit>().removeFavouriteCharacter(
+                                        id: data.id);
+                                  },
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(12.0),
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Stack(children: [
+                                            CachedNetworkImage(
+                                              imageUrl: data.image ?? "",
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                height: height,
+                                                width: width,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: AppColors.black.withOpacity(0.4),
-                                              borderRadius: const BorderRadius.all(Radius.circular(3)),
-                                            ),
-                                            margin: const EdgeInsets.all(5),
-                                            padding: const EdgeInsets.all(2),
-                                            child: const Icon(Icons.star, color: AppColors.favouriteColor),
-                                          )
-                                        ]),
-                                      ),
-                                      const Gap(10),
-                                      Text(data.name ?? "", style: bodyMedium12),
-                                    ]),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: AppColors.black.withOpacity(0.4),
+                                                borderRadius: const BorderRadius.all(Radius.circular(3)),
+                                              ),
+                                              margin: const EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(2),
+                                              child: const Icon(Icons.star, color: AppColors.favouriteColor),
+                                            )
+                                          ]),
+                                        ),
+                                        const Gap(10),
+                                        Text(data.name ?? "", style: bodyMedium12),
+                                      ]),
+                                    ),
                                   ),
                                 ),
                               ),

@@ -15,7 +15,7 @@ import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_c
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/repository/location_repository.dart';
 import 'package:ricky_morty_wiki/features/splash/bloc/splash_cubit.dart';
-
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp( MyApp());
@@ -30,52 +30,59 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      initialRoute: '/',
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/second': (context) => CastDetailsScreen(),
-      },
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SplashCubit(),
-          ),
-          BlocProvider(
-            create: (context) => BottomNavBarCubit(),
-          ),
-          BlocProvider(
-            create: (context) => CharacterCubit(),
-          ),
-          BlocProvider(
-            create: (context) => LocationCubit(),
-          ),
-          BlocProvider(
-            create: (context) => DropdownCubit(),
-          ),
-          BlocProvider(
-            create: (context) => FavouriteCharactersCubit(SharedPrefHelper()),
-          ),
-          BlocProvider(
-            create: (context) => CastDetailsCubit(),
-          ),
-          BlocProvider(
-            create: (context) => CounterCubit(),
-          ),
-          BlocProvider(
-            create: (context) => EpisodeCubit(),
-          ),
-        ],
-        child: AppNavigator(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SplashCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BottomNavBarCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CharacterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LocationCubit(),
+        ),
+        BlocProvider(
+          create: (context) => DropdownCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FavouriteCharactersCubit(SharedPrefHelper()),
+        ),
+        BlocProvider(
+          create: (context) => CastDetailsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CounterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EpisodeCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Ricky and Morty Wiki',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        initialRoute: '/',
+        onGenerateRoute: (routes) {
+          switch (routes.name) {
+            case '/':
+              return MaterialPageRoute(
+                builder: (context) => AppNavigator(),
+              );
+            case '/cast_details':
+              return MaterialPageRoute(
+                builder: (context) => CastDetailsScreen(),
+              );
+            default:
+              return null;
+          }
+        },
       ),
     );
   }
 }
-

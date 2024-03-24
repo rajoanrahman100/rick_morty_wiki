@@ -26,9 +26,7 @@ class _CastDetailsScreenState extends State<CastDetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<CastDetailsCubit>().fetchCastDetails(id: 4);
-    });
+
   }
 
   @override
