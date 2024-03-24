@@ -63,7 +63,7 @@ class FavouriteCastItemWidget extends StatelessWidget {
                           onTap: callBackCastFavourite,
                           child: Container(
                             decoration:  BoxDecoration(
-                              color: AppColors.black.withOpacity(0.4),
+                              color: AppColors.black.withOpacity(0.2),
                               borderRadius:  const BorderRadius.all(Radius.circular(3)),
                             ),
                             margin: const EdgeInsets.all(5),

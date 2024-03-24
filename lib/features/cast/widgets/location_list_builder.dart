@@ -44,9 +44,9 @@ class LocationListBuilder extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("#${data.id}", style: bodyMedium12),
+                              Text("#${data.id}", style: bodyMedium10),
                               const Gap(5),
-                              Text(data.name ?? "", style: bodyMedium12),
+                              Text(data.name ?? "", style: bodySemiBold12),
                             ]),
                       ),
                     ),
