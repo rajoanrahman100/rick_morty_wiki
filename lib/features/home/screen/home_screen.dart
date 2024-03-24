@@ -60,13 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           height: height,
           width: width,
+          padding: EdgeInsets.all(20.0),
           color: AppColors.backgroundColor.withOpacity(0.9),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const Gap(30.0),
+                const Gap(4.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -81,13 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Gap(24),
-                BlocBuilder<FavouriteCharactersCubit, FavouriteCharactersState>(builder: (context, state) {
-                  if (state is InitialFavouriteCharacterState) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is FavouriteCharacterUpdateState) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: SizedBox(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: BlocBuilder<FavouriteCharactersCubit, FavouriteCharactersState>(builder: (context, state) {
+                    if (state is InitialFavouriteCharacterState) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is FavouriteCharacterUpdateState) {
+                      return SizedBox(
                         height: 220,
                         width: width,
                         child: ListView.separated(
@@ -164,16 +165,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             return const Gap(24.0);
                           },
                         ),
-                      ),
-                    );
-                  } else if (state is EmptyFavouriteCharacterListState) {
-                    return const Text("No characters has added yet", style: bodySemiBold12);
-                  }
-                  return Container();
-                }),
+                      );
+                    } else if (state is EmptyFavouriteCharacterListState) {
+                      return const Text("No characters has added yet", style: bodySemiBold12);
+                    }
+                    return Container();
+                  }),
+                ),
                 const Gap(30.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -187,13 +188,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Gap(24),
-                BlocBuilder<CharacterCubit, CharacterSate>(builder: (context, state) {
-                  if (state is LoadingCharacterState) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is ResponseCharacterState) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: SizedBox(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: BlocBuilder<CharacterCubit, CharacterSate>(builder: (context, state) {
+                    if (state is LoadingCharacterState) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is ResponseCharacterState) {
+                      return SizedBox(
                         height: 220,
                         width: width,
                         child: ListView.separated(
@@ -221,16 +222,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             return const Gap(24.0);
                           },
                         ),
-                      ),
-                    );
-                  } else if (state is ErrorCharacterState) {
-                    return Center(child: Text(state.error));
-                  }
-                  return Container();
-                }),
+                      );
+                    } else if (state is ErrorCharacterState) {
+                      return Center(child: Text(state.error));
+                    }
+                    return Container();
+                  }),
+                ),
                 const Gap(30.0),
-                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -242,13 +243,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Gap(24),
-                BlocBuilder<LocationCubit, LocationState>(builder: (context, state) {
-                  if (state is LoadingLocationState) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is ResponseLocationState) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: SizedBox(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: BlocBuilder<LocationCubit, LocationState>(builder: (context, state) {
+                    if (state is LoadingLocationState) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is ResponseLocationState) {
+                      return SizedBox(
                         height: 70,
                         width: width,
                         child: ListView.separated(
@@ -282,16 +283,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             return const Gap(24.0);
                           },
                         ),
-                      ),
-                    );
-                  } else if (state is ErrorLocationState) {
-                    return Center(child: Text(state.error));
-                  }
-                  return Container();
-                }),
+                      );
+                    } else if (state is ErrorLocationState) {
+                      return Center(child: Text(state.error));
+                    }
+                    return Container();
+                  }),
+                ),
                 const Gap(30),
-                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -303,13 +304,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Gap(24),
-                BlocBuilder<EpisodeCubit, EpisodeState>(builder: (context, state) {
-                  if (state is LoadingEpisodeState) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is ResponseEpisodeState) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: SizedBox(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: BlocBuilder<EpisodeCubit, EpisodeState>(builder: (context, state) {
+                    if (state is LoadingEpisodeState) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is ResponseEpisodeState) {
+                      return SizedBox(
                         height: 70,
                         width: width,
                         child: ListView.separated(
@@ -343,14 +344,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             return const Gap(24.0);
                           },
                         ),
-                      ),
-                    );
-                  } else if (state is ErrorEpisodeState) {
-                    return Center(child: Text(state.error));
-                  }
-                  return Container();
-                }),
-                const Gap(30.0),
+                      );
+                    } else if (state is ErrorEpisodeState) {
+                      return Center(child: Text(state.error));
+                    }
+                    return Container();
+                  }),
+                ),
+                const Gap(4.0),
               ],
             ),
           ),

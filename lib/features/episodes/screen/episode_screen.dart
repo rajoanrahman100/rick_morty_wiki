@@ -38,7 +38,7 @@ class EpisodeScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text("All Locations", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                    child: Text("All Episodes", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
                   ),
                   const Gap(20),
                   BlocBuilder<EpisodeCubit,EpisodeState>(

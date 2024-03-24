@@ -62,10 +62,9 @@ class _CastScreenState extends State<CastScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Container(
                     height: 55,
-                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    margin: EdgeInsets.symmetric(horizontal: 4.0),
                     width: width,
                     decoration: BoxDecoration(
                         border: Border.all(color: AppColors.white, width: 0.2),

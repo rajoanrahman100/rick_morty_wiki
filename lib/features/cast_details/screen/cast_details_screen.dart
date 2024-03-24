@@ -117,6 +117,7 @@ class _CastDetailsScreenState extends State<CastDetailsScreen> {
                           assetName: AppAssets.origin,
                           itemTitle: "Origin",
                           width: width,
+                          isEditIconShow: true,
                         ),
                         const Gap(15.0),
                         CastDetailsItemContainer(
@@ -124,6 +125,7 @@ class _CastDetailsScreenState extends State<CastDetailsScreen> {
                           assetName: AppAssets.lastLocation,
                           itemTitle: "Last Known Location",
                           width: width,
+                          isEditIconShow: true,
                         ),
                         const Gap(15.0),
                         EpisodeListItemWidget(width: width, data: data),
