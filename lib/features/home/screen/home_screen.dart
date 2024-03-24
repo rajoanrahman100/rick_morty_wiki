@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Favorites", style: bodySemiBold16),
+                      const Text("Favourites", style: bodySemiBold16),
                       GestureDetector(
                           onTap: () {
                             Navigator.of(context).pushNamed('/favourite');
