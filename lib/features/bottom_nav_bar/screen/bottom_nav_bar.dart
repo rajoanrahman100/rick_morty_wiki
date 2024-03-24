@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/screen/cast_screen.dart';
+import 'package:ricky_morty_wiki/features/episodes/screen/episode_screen.dart';
 import 'package:ricky_morty_wiki/features/home/screen/home_screen.dart';
+import 'package:ricky_morty_wiki/features/location/screen/location_screen.dart';
 
 class BottomNavBarScreen extends StatelessWidget {
   @override
@@ -71,17 +73,9 @@ class BottomNavBarScreen extends StatelessWidget {
       case NavigationItem.item2:
         return CastScreen();
       case NavigationItem.item3:
-        return Container(
-          child: const Center(
-            child: Text("Screen 3"),
-          ),
-        );
+        return EpisodeScreen();
       case NavigationItem.item4:
-        return Container(
-          child: const Center(
-            child: Text("Screen 4"),
-          ),
-        );
+        return LocationScreen();
       default:
         return Container();
     }

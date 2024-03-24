@@ -13,6 +13,7 @@ import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubi
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
+import 'package:ricky_morty_wiki/features/cast_details/bloc_cubit/cast_details_cubit.dart';
 import 'package:ricky_morty_wiki/features/episodes/bloc_cubit/episode_cubit.dart';
 import 'package:ricky_morty_wiki/features/episodes/bloc_cubit/episode_state.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_character_state.dart';
@@ -191,6 +192,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context.read<FavouriteCharactersCubit>().addFavouriteCharacter(
                                       id: data.id, name: data.name!, image: data.image!, context: context);
                                 },
+                                callBackCastDetails: () {
+                                  Navigator.of(context).pushNamed('/cast_details');
+                                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                    context.read<CastDetailsCubit>().fetchCastDetails(id: int.parse(data.id!));
+                                  });
+                                },
                                 data: data,
                                 height: height,
                                 width: width);
@@ -207,13 +214,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Container();
                 }),
                 const Gap(30.0),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Locations", style: bodySemiBold16),
-                      ViewAllContainer(),
+                      GestureDetector(onTap: (){
+                        context.read<BottomNavBarCubit>().updateTab(NavigationItem.item4);
+                      },child: ViewAllContainer()),
                     ],
                   ),
                 ),
@@ -266,13 +275,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Container();
                 }),
                 const Gap(30),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Episodes", style: bodySemiBold16),
-                      ViewAllContainer(),
+                      GestureDetector(onTap: (){
+                        context.read<BottomNavBarCubit>().updateTab(NavigationItem.item3);
+                      },child: ViewAllContainer()),
                     ],
                   ),
                 ),
