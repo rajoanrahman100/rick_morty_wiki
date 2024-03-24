@@ -80,9 +80,9 @@ class EpisodeScreen extends StatelessWidget {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Text("${data[firstIndex].episode}", style: bodyMedium12),
+                                                  Text("${data[firstIndex].episode}", style: bodyMedium10),
                                                   const Gap(5),
-                                                  Text(data[firstIndex].name ?? "", style: bodyMedium12,maxLines: 1,),
+                                                  Text(data[firstIndex].name ?? "", style: bodySemiBold12,maxLines: 1,),
                                                 ]),
                                           ),
                                         ),
@@ -107,9 +107,9 @@ class EpisodeScreen extends StatelessWidget {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Text("${data[secondIndex].episode}", style: bodyMedium12),
+                                                  Text("${data[secondIndex].episode}", style: bodyMedium10),
                                                   const Gap(5),
-                                                  Text(data[secondIndex].name ?? "", style: bodyMedium12,maxLines: 1,),
+                                                  Text(data[secondIndex].name ?? "", style: bodySemiBold12,maxLines: 1,),
                                                 ]),
                                           ),
                                         ),

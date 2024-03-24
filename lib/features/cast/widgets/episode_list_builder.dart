@@ -46,9 +46,9 @@ class EpisodeListBuilder extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("${data.episode}", style: bodyMedium12),
+                              Text("${data.episode}", style: bodyMedium10),
                               const Gap(5),
-                              Text(data.name ?? "", style: bodyMedium12),
+                              Text(data.name ?? "", style: bodySemiBold12),
                             ]),
                       ),
                     ),

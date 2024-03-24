@@ -35,6 +35,7 @@ class FavouriteCharactersBuilder extends StatelessWidget {
             width: width,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
+
               itemCount: state.favouriteCharactersList.length>=5?5:state.favouriteCharactersList.length,
               shrinkWrap: true,
               itemBuilder: (_, index) {
@@ -84,7 +85,7 @@ class FavouriteCharactersBuilder extends StatelessWidget {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: AppColors.black.withOpacity(0.4),
+                                      color: AppColors.black.withOpacity(0.2),
                                       borderRadius: const BorderRadius.all(Radius.circular(3)),
                                     ),
                                     margin: const EdgeInsets.all(5),

@@ -24,5 +24,6 @@ const bodyRegular14 = TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontF
 const bodyRegular12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily:AppAssets.plusJakartaFontFamily,color: Colors.white);
 const bodyRegular10 = TextStyle(fontSize: 10, fontWeight: FontWeight.w400, fontFamily:AppAssets.plusJakartaFontFamily,color: Colors.white);
 const bodyMedium12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w500, fontFamily:AppAssets.plusJakartaFontFamily,color: Colors.white);
+const bodyMedium10 = TextStyle(fontSize: 10, fontWeight: FontWeight.w500, fontFamily:AppAssets.plusJakartaFontFamily,color: Colors.white);
 const bodySemiBold10 = TextStyle(fontSize: 10, fontWeight: FontWeight.w600, fontFamily:AppAssets.plusJakartaFontFamily,color: Colors.white);
 const bodySemiBold12= TextStyle(fontSize: 12, fontWeight: FontWeight.w600, fontFamily:AppAssets.plusJakartaFontFamily,color: Colors.white);
