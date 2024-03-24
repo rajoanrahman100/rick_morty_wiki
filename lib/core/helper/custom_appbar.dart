@@ -5,6 +5,10 @@ import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import '../constants/app_assets.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool isLeading;
+
+  CustomAppBar({this.isLeading = false});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,6 +24,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: AppColors.backgroundColor,
         elevation: 0,
         centerTitle: true,
+        leading: isLeading
+            ? GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: AppColors.white,
+                ),
+              )
+            : null,
         title: Transform.scale(
           scale: .75,
           child: SvgPicture.asset(
@@ -31,5 +44,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(0, 70);
+  Size get preferredSize => const Size(0, 70);
 }

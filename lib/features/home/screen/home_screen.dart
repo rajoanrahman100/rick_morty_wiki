@@ -9,7 +9,7 @@ import 'package:ricky_morty_wiki/core/helper/bg_overlay_image.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_container_cast_item.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_container_other_item.dart';
-import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
+
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
@@ -22,6 +22,7 @@ import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_state.dart';
 
+import '../../bottom_nav_bar/bloc_cubit/bottomnav_bar_cubit.dart';
 import '../widgets/view_all_container.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,7 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Text("Favorite", style: bodySemiBold16),
                       GestureDetector(
                           onTap: () {
-                            context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
+                            //context.read<BottomNavBarCubit>().updateTab(NavigationItem.item2);
+                            Navigator.of(context).pushNamed('/favourite');
                           },
                           child: const ViewAllContainer()),
                     ],
@@ -90,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: width,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          itemCount: state.favouriteCharactersList.length,
+                          itemCount: state.favouriteCharactersList.length>=5?5:state.favouriteCharactersList.length,
                           shrinkWrap: true,
                           itemBuilder: (_, index) {
                             var data = state.favouriteCharactersList[index];
@@ -111,28 +113,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Expanded(
                                           flex: 1,
                                           child: Stack(children: [
-                                            CachedNetworkImage(
-                                              imageUrl: data.image ?? "",
-                                              imageBuilder: (context, imageProvider) => Container(
-                                                height: height,
-                                                width: width,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                                  image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover,
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pushNamed('/cast_details');
+                                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                                  context.read<CastDetailsCubit>().fetchCastDetails(id: int.parse(data.id!));
+                                                });
+                                              },
+                                              child: CachedNetworkImage(
+                                                imageUrl: data.image ?? "",
+                                                imageBuilder: (context, imageProvider) => Container(
+                                                  height: height,
+                                                  width: width,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                                    image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: AppColors.black.withOpacity(0.4),
-                                                borderRadius: const BorderRadius.all(Radius.circular(3)),
+                                            GestureDetector(
+                                              onTap:() {
+                                                context.read<FavouriteCharactersCubit>().removeFavouriteCharacter(id: data.id);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.black.withOpacity(0.4),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(3)),
+                                                ),
+                                                margin: const EdgeInsets.all(5),
+                                                padding: const EdgeInsets.all(2),
+                                                child: const Icon(Icons.star, color: AppColors.favouriteColor),
                                               ),
-                                              margin: const EdgeInsets.all(5),
-                                              padding: const EdgeInsets.all(2),
-                                              child: const Icon(Icons.star, color: AppColors.favouriteColor),
                                             )
                                           ]),
                                         ),

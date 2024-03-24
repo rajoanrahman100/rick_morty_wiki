@@ -30,13 +30,16 @@ class EpisodeScreen extends StatelessWidget {
           Container(
             height: height,
             width: width,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
             color: AppColors.backgroundColor.withOpacity(0.9),
             child: SingleChildScrollView(
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("All Locations", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Text("All Locations", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  ),
                   const Gap(20),
                   BlocBuilder<EpisodeCubit,EpisodeState>(
                     builder: (context,state){
@@ -48,6 +51,7 @@ class EpisodeScreen extends StatelessWidget {
                       }else if (state is ResponseEpisodeState){
                         return ListView.builder(
                           shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(horizontal: 4),
                           itemCount: (state.episodeModel.data!.episodes!.results!.length / 2).ceil(),
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (_,index){

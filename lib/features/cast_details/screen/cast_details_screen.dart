@@ -36,7 +36,7 @@ class _CastDetailsScreenState extends State<CastDetailsScreen> {
     double? height = AppSize.screenHeight;
     return Scaffold(
         backgroundColor: AppColors.backgroundColor,
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(isLeading: true,),
         body: Stack(alignment: Alignment.center, children: [
           BackgoundImageOverlay(height: height, width: width),
           Container(

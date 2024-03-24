@@ -4,7 +4,6 @@ import 'package:ricky_morty_wiki/app_navigator.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
 import 'package:ricky_morty_wiki/core/constants/custom_routes.dart';
 import 'package:ricky_morty_wiki/core/helper/shared_pref_helper.dart';
-import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
@@ -16,6 +15,8 @@ import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_c
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/repository/location_repository.dart';
 import 'package:ricky_morty_wiki/features/splash/bloc/splash_cubit.dart';
+
+import 'features/bottom_nav_bar/bloc_cubit/bottomnav_bar_cubit.dart';
 
 void main() {
   runApp( MyApp());

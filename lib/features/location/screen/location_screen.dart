@@ -28,13 +28,16 @@ class LocationScreen extends StatelessWidget {
           Container(
             height: height,
             width: width,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
             color: AppColors.backgroundColor.withOpacity(0.9),
             child: SingleChildScrollView(
               child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("All Locations", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Text("All Locations", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  ),
                   const Gap(20),
                   BlocBuilder<LocationCubit,LocationState>(
                     builder: (context,state){
@@ -46,6 +49,7 @@ class LocationScreen extends StatelessWidget {
                       }else if (state is ResponseLocationState){
                         return ListView.builder(
                           shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(horizontal: 4.0),
                           itemCount: (state.locationModel.data!.locations!.results!.length / 2).ceil(),
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (_,index){
