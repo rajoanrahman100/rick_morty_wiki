@@ -112,28 +112,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Expanded(
                                           flex: 1,
                                           child: Stack(children: [
-                                            CachedNetworkImage(
-                                              imageUrl: data.image ?? "",
-                                              imageBuilder: (context, imageProvider) => Container(
-                                                height: height,
-                                                width: width,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                                  image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover,
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pushNamed('/cast_details');
+                                                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                                                  context.read<CastDetailsCubit>().fetchCastDetails(id: int.parse(data.id!));
+                                                });
+                                              },
+                                              child: CachedNetworkImage(
+                                                imageUrl: data.image ?? "",
+                                                imageBuilder: (context, imageProvider) => Container(
+                                                  height: height,
+                                                  width: width,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                                    image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: AppColors.black.withOpacity(0.4),
-                                                borderRadius: const BorderRadius.all(Radius.circular(3)),
+                                            GestureDetector(
+                                              onTap:() {
+                                                context.read<FavouriteCharactersCubit>().removeFavouriteCharacter(id: data.id);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.black.withOpacity(0.4),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(3)),
+                                                ),
+                                                margin: const EdgeInsets.all(5),
+                                                padding: const EdgeInsets.all(2),
+                                                child: const Icon(Icons.star, color: AppColors.favouriteColor),
                                               ),
-                                              margin: const EdgeInsets.all(5),
-                                              padding: const EdgeInsets.all(2),
-                                              child: const Icon(Icons.star, color: AppColors.favouriteColor),
                                             )
                                           ]),
                                         ),

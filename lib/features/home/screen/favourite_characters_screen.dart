@@ -21,7 +21,7 @@ class FavouriteCharacterScreen extends StatelessWidget {
     double? height = AppSize.screenHeight;
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(isLeading: true),
       body: Stack(
         alignment: Alignment.center,
         children: [

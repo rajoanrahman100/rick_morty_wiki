@@ -56,13 +56,13 @@ class _CastScreenState extends State<CastScreen> {
           Container(
             height: height,
             width: width,
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 24.0),
             color: AppColors.backgroundColor.withOpacity(0.9),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Gap(30.0),
+
                   Container(
                     height: 55,
                     width: width,
