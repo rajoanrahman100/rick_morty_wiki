@@ -6,6 +6,8 @@ class CastDetailsInitialState extends CastDetailsState {}
 
 class CastDetailsLoadingState extends CastDetailsState {}
 
+class NavigateToCastDetails extends CastDetailsState {}
+
 class CastDetailsErrorState extends CastDetailsState {
   final String error;
   CastDetailsErrorState(this.error);

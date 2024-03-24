@@ -42,7 +42,7 @@ class EpisodeListItemWidget extends StatelessWidget {
                     width: 10,
                     decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.white)),
                 const Gap(10.0),
-                Text(element.name!, style: bodySemiBold16),
+                Expanded(child: Text(element.name!, style: bodySemiBold16,overflow: TextOverflow.ellipsis,)),
               ]),
             )
       ]),

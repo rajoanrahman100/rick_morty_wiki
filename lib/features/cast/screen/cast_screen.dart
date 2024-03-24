@@ -13,6 +13,7 @@ import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/widgets/drop_down_widget.dart';
+import 'package:ricky_morty_wiki/features/cast_details/bloc_cubit/cast_details_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 
@@ -202,6 +203,12 @@ class _CastScreenState extends State<CastScreen> {
                   .read<FavouriteCharactersCubit>()
                   .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
             },
+            callBackCastDetails: () {
+              Navigator.of(context).pushNamed('/cast_details');
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                context.read<CastDetailsCubit>().fetchCastDetails(id: int.parse(data.id!));
+              });
+            },
             data: data,
             height: height,
             width: width);
@@ -226,6 +233,12 @@ class _CastScreenState extends State<CastScreen> {
               context
                   .read<FavouriteCharactersCubit>()
                   .addFavouriteCharacter(id: data.id, name: data.name!, image: data.image!, context: context);
+            },
+            callBackCastDetails: () {
+              Navigator.of(context).pushNamed('/cast_details');
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                context.read<CastDetailsCubit>().fetchCastDetails(id: int.parse(data.id!));
+              });
             },
             data: data,
             height: height,
