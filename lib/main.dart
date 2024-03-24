@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ricky_morty_wiki/app_navigator.dart';
 import 'package:ricky_morty_wiki/core/constants/app_colors.dart';
+import 'package:ricky_morty_wiki/core/constants/custom_routes.dart';
 import 'package:ricky_morty_wiki/core/helper/shared_pref_helper.dart';
 import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
@@ -15,7 +16,6 @@ import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_c
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/repository/location_repository.dart';
 import 'package:ricky_morty_wiki/features/splash/bloc/splash_cubit.dart';
-import 'package:go_router/go_router.dart';
 
 void main() {
   runApp( MyApp());
@@ -64,24 +64,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Ricky and Morty Wiki',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         initialRoute: '/',
-        onGenerateRoute: (routes) {
-          switch (routes.name) {
-            case '/':
-              return MaterialPageRoute(
-                builder: (context) => AppNavigator(),
-              );
-            case '/cast_details':
-              return MaterialPageRoute(
-                builder: (context) => CastDetailsScreen(),
-              );
-            default:
-              return null;
-          }
-        },
+        onGenerateRoute: customRouteGenerator,
       ),
     );
   }
