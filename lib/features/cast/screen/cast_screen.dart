@@ -56,7 +56,7 @@ class _CastScreenState extends State<CastScreen> {
           Container(
             height: height,
             width: width,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
             color: AppColors.backgroundColor.withOpacity(0.9),
             child: SingleChildScrollView(
               child: Column(
@@ -65,6 +65,7 @@ class _CastScreenState extends State<CastScreen> {
 
                   Container(
                     height: 55,
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
                     width: width,
                     decoration: BoxDecoration(
                         border: Border.all(color: AppColors.white, width: 0.2),
@@ -99,7 +100,7 @@ class _CastScreenState extends State<CastScreen> {
                                             dropdownState != AppAssets.statusFilter &&
                                             dropdownState != AppAssets.speciesFilter &&
                                             dropdownState != AppAssets.genderFilter) {
-                                          showSnackBar(context, "Select item from the dropdown first");
+                                          showSnackBar(context, "Select item from the dropdown first",Icons.warning_amber);
                                         } else {
                                           context
                                               .read<CharacterCubit>()
@@ -119,7 +120,10 @@ class _CastScreenState extends State<CastScreen> {
                     ),
                   ),
                   const Gap(30.0),
-                  Text("All Casts", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Text("All Casts", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  ),
                   const Gap(20.0),
                   BlocBuilder<CharacterCubit, CharacterSate>(builder: (context, state) {
                     if (state is LoadingCharacterState) {
@@ -127,32 +131,38 @@ class _CastScreenState extends State<CastScreen> {
                     } else if (state is ResponseCharacterState) {
                       return LayoutBuilder(builder: (context, constraints) {
                         if (constraints.maxWidth < 600) {
-                          return Column(
-                            children: [
-                              buildGridViewCharacters(state, context, height, width, 2),
-                              const Gap(20.0),
-                              BlocBuilder<CounterCubit, int>(
-                                builder: (context, state) {
-                                  return NextPageCharactersFetch(
-                                    value: state,
-                                  );
-                                },
-                              ),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Column(
+                              children: [
+                                buildGridViewCharacters(state, context, height, width, 2),
+                                const Gap(20.0),
+                                BlocBuilder<CounterCubit, int>(
+                                  builder: (context, state) {
+                                    return NextPageCharactersFetch(
+                                      value: state,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           );
                         } else {
-                          return Column(
-                            children: [
-                              buildGridViewCharacters(state, context, height, width, 4),
-                              const Gap(20.0),
-                              BlocBuilder<CounterCubit, int>(
-                                builder: (context, state) {
-                                  return NextPageCharactersFetch(
-                                    value: state,
-                                  );
-                                },
-                              ),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Column(
+                              children: [
+                                buildGridViewCharacters(state, context, height, width, 5),
+                                const Gap(20.0),
+                                BlocBuilder<CounterCubit, int>(
+                                  builder: (context, state) {
+                                    return NextPageCharactersFetch(
+                                      value: state,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           );
                         }
                       });
@@ -162,7 +172,7 @@ class _CastScreenState extends State<CastScreen> {
                           return buildGridViewFilteredCharacters(state, context, height, width, 2);
                         } else {
                           // Tab layout
-                          return buildGridViewFilteredCharacters(state, context, height, width, 4);
+                          return buildGridViewFilteredCharacters(state, context, height, width, 5);
                         }
                       });
                     } else if (state is ErrorCharacterState) {
@@ -191,9 +201,10 @@ class _CastScreenState extends State<CastScreen> {
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       crossAxisCount: crossAxisCount!,
+
       childAspectRatio: 0.85,
-      crossAxisSpacing: 15.0,
-      mainAxisSpacing: 15.0,
+      crossAxisSpacing: 20.0,
+      mainAxisSpacing: 20.0,
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
         var data = state.characterModel.data!.characters!.results![index];
@@ -221,10 +232,11 @@ class _CastScreenState extends State<CastScreen> {
     return GridView.count(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
+
       crossAxisCount: crossAxisCount!,
       childAspectRatio: 0.85,
-      crossAxisSpacing: 15.0,
-      mainAxisSpacing: 15.0,
+      crossAxisSpacing: 20.0,
+      mainAxisSpacing: 20.0,
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.characterModel.data!.characters!.results!.length, (index) {
         var data = state.characterModel.data!.characters!.results![index];

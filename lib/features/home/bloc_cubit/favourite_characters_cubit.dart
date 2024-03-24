@@ -22,10 +22,10 @@ class FavouriteCharactersCubit extends Cubit<FavouriteCharactersState> {
       log(favouriteCharactersList.length.toString());
       await _sharedPrefHelper.saveFavouriteCharacters(favouriteCharactersList);
       await _sharedPrefHelper.loadFavouriteCharacters();
-      showSnackBar(context, "$name has added to your favourite list");
+      showSnackBar(context, "$name has added to your favourite list",Icons.check_box);
       emit(FavouriteCharacterUpdateState(favouriteCharactersList));
     } else {
-      showSnackBar(context, "$name already been added to your favourite list");
+      showSnackBar(context, "$name already been added to your favourite list",Icons.warning);
     }
   }
 

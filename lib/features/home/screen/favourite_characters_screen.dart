@@ -29,13 +29,16 @@ class FavouriteCharacterScreen extends StatelessWidget {
           Container(
             height: height,
             width: width,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             color: AppColors.backgroundColor.withOpacity(0.9),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Favourite Characters", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Text("Favourite Characters", style: bodySemiBold16.copyWith(color: AppColors.filterBackgroundColor)),
+                  ),
                   const Gap(20.0),
                   BlocBuilder<FavouriteCharactersCubit, FavouriteCharactersState>(builder: (context, state) {
                     if (state is InitialFavouriteCharacterState) {
@@ -43,13 +46,19 @@ class FavouriteCharacterScreen extends StatelessWidget {
                     } else if (state is FavouriteCharacterUpdateState) {
                       return LayoutBuilder(builder: (context, constraints) {
                         if (constraints.maxWidth < 600) {
-                          return buildGridViewCharacters(state, context, height, width, 2);
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: buildGridViewCharacters(state, context, height, width, 2),
+                          );
                         } else {
-                          return buildGridViewCharacters(state, context, height, width, 4);
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: buildGridViewCharacters(state, context, height, width, 5),
+                          );
                         }
                       });
                     } else if (state is EmptyFavouriteCharacterListState) {
-                      return const Text("No characters has added yet", style: bodySemiBold12);
+                      return const Center(child: Text("No characters has added yet", style: bodySemiBold12));
                     }
                     return const Center(
                       child: Text(
@@ -75,8 +84,8 @@ class FavouriteCharacterScreen extends StatelessWidget {
       padding: EdgeInsets.zero,
       crossAxisCount: crossAxisCount!,
       childAspectRatio: 0.85,
-      crossAxisSpacing: 15.0,
-      mainAxisSpacing: 15.0,
+      crossAxisSpacing: 20.0,
+      mainAxisSpacing: 20.0,
       physics: const NeverScrollableScrollPhysics(),
       children: List.generate(state.favouriteCharactersList.length, (index) {
         var data = state.favouriteCharactersList[index];
@@ -97,32 +106,4 @@ class FavouriteCharacterScreen extends StatelessWidget {
     );
   }
 
-  GridView buildGridViewFilteredCharacters(
-      FavouriteCharacterUpdateState state, BuildContext context, double? height, double? width, int? crossAxisCount) {
-    return GridView.count(
-      shrinkWrap: true,
-      padding: EdgeInsets.zero,
-      crossAxisCount: crossAxisCount!,
-      childAspectRatio: 0.85,
-      crossAxisSpacing: 15.0,
-      mainAxisSpacing: 15.0,
-      physics: const NeverScrollableScrollPhysics(),
-      children: List.generate(state.favouriteCharactersList.length, (index) {
-        var data = state.favouriteCharactersList[index];
-        return FavouriteCastItemWidget(
-            callBackCastFavourite: () {
-              context.read<FavouriteCharactersCubit>().removeFavouriteCharacter(id: data.id);
-            },
-            callBackCastDetails: () {
-              Navigator.of(context).pushNamed('/cast_details');
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                context.read<CastDetailsCubit>().fetchCastDetails(id: int.parse(data.id!));
-              });
-            },
-            data: data,
-            height: height,
-            width: width);
-      }),
-    );
-  }
 }

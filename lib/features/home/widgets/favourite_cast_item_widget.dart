@@ -36,7 +36,7 @@ class FavouriteCastItemWidget extends StatelessWidget {
         child: SizedBox(
           width: 200,
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Expanded(
                   flex: 2,

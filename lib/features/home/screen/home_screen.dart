@@ -9,7 +9,7 @@ import 'package:ricky_morty_wiki/core/helper/bg_overlay_image.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_appbar.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_container_cast_item.dart';
 import 'package:ricky_morty_wiki/core/helper/custom_container_other_item.dart';
-import 'package:ricky_morty_wiki/features/bottom_nav_bar/bloc/bottomnav_bar_cubit.dart';
+
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/character_state.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
@@ -22,6 +22,7 @@ import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_cubit.dart';
 import 'package:ricky_morty_wiki/features/location/bloc_cubit/location_state.dart';
 
+import '../../bottom_nav_bar/bloc_cubit/bottomnav_bar_cubit.dart';
 import '../widgets/view_all_container.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: width,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          itemCount: state.favouriteCharactersList.length,
+                          itemCount: state.favouriteCharactersList.length>=5?5:state.favouriteCharactersList.length,
                           shrinkWrap: true,
                           itemBuilder: (_, index) {
                             var data = state.favouriteCharactersList[index];
