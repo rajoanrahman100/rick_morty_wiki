@@ -13,6 +13,7 @@ import 'package:ricky_morty_wiki/features/cast/bloc_cubit/charcter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/counter_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/bloc_cubit/drop_down_cubit.dart';
 import 'package:ricky_morty_wiki/features/cast/widgets/drop_down_widget.dart';
+import 'package:ricky_morty_wiki/features/cast/widgets/search_field_widget.dart';
 import 'package:ricky_morty_wiki/features/cast_details/bloc_cubit/cast_details_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/bloc_cubit/favourite_characters_cubit.dart';
 import 'package:ricky_morty_wiki/features/home/widgets/cast_item_widget.dart';
@@ -64,7 +65,7 @@ class _CastScreenState extends State<CastScreen> {
                 children: [
                   Container(
                     height: 55,
-                    margin: EdgeInsets.symmetric(horizontal: 4.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
                     width: width,
                     decoration: BoxDecoration(
                         border: Border.all(color: AppColors.white, width: 0.2),
@@ -78,42 +79,7 @@ class _CastScreenState extends State<CastScreen> {
                               return DropDownButtonWidget(items: items, selectedValue: selectedValue);
                             },
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: TextFormField(
-                              controller: _searchController,
-                              style: const TextStyle(color: AppColors.white),
-                              cursorColor: AppColors.white,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  hintText: "Search",
-                                  hintStyle: bodyMedium14.copyWith(color: AppColors.white.withOpacity(0.5)),
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 15.0, right: 10.0, top: 10.0, bottom: 15.0),
-                                  suffixIcon: GestureDetector(
-                                      onTap: () {
-                                        final dropdownState = context.read<DropdownCubit>().state;
-                                        if (dropdownState != AppAssets.nameFilter &&
-                                            dropdownState != AppAssets.statusFilter &&
-                                            dropdownState != AppAssets.speciesFilter &&
-                                            dropdownState != AppAssets.genderFilter) {
-                                          showSnackBar(context, "Select item from the dropdown first",Icons.warning_amber);
-                                        } else {
-                                          context
-                                              .read<CharacterCubit>()
-                                              .fetchCharacters(status: dropdownState, query: _searchController.text);
-                                          context.read<CounterCubit>().reset();
-                                          print("Value is ${_searchController.text} and item is ${dropdownState}");
-                                        }
-                                      },
-                                      child: const Icon(
-                                        Icons.search,
-                                        color: AppColors.white,
-                                      ))),
-                            ),
-                          )
+                          SearchField(searchController: _searchController)
                         ],
                       ),
                     ),
@@ -258,6 +224,8 @@ class _CastScreenState extends State<CastScreen> {
     );
   }
 }
+
+
 
 class NextPageCharactersFetch extends StatelessWidget {
   NextPageCharactersFetch({
