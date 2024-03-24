@@ -11,8 +11,10 @@ class AppAssets {
 
   //Icon Assets
   static const String home = "$assetIcon/home.svg";
+  static const String mainHome = "$assetIcon/main_home.svg";
   static const String person = "$assetIcon/person.svg";
   static const String episode = "$assetIcon/episode.svg";
+  static const String homeEpisode = "$assetIcon/home_episode.svg";
   static const String location = "$assetIcon/location.svg";
   static const String status = "$assetIcon/status.svg";
   static const String species = "$assetIcon/species.svg";
