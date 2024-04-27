@@ -10,6 +10,7 @@ class AppNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SplashCubit, bool>(
       builder: (context, splashFinished) {
+        debugPrint("Splash Cubit Value $splashFinished");
         if (!splashFinished) {
           return const SplashScreen();
         } else {
