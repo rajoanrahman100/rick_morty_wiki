@@ -14,8 +14,6 @@ class HttpService {
   static header() => {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "X-RapidAPI-Key": "7b4e17372bmshebc41281994c4f1p105934jsn2565dd226cfa",
-        "X-RapidAPI-Host": "task-manager-api3.p.rapidapi.com"
       };
 
   Future<HttpService> init() async {
